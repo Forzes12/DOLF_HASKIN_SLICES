@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOLF HASKIN SLICES</title>
+    <title>DOLF HASKIN НАРЕЗКИ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Unbounded:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -121,10 +121,7 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--purple));
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: url('assets/014f8799-c8a6-4219-b71f-c8841609582f (1).png') center/cover no-repeat;
             margin: 0 auto;
             border: 4px solid var(--dark);
             box-shadow:
@@ -142,11 +139,7 @@
         }
 
         .avatar-text {
-            font-family: 'Unbounded', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            display: none;
         }
 
         /* Чтобы использовать картинку вместо текста, раскомментируйте и замените ссылку: */
@@ -375,15 +368,28 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.2rem;
             color: var(--primary);
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-arrow::before {
+            content: '❯';
+            position: relative;
+            left: 0;
+            transition: all 0.3s;
+            font-weight: bold;
         }
 
         .link-card:hover .link-arrow {
             background: var(--primary);
             color: white;
-            transform: translateX(5px);
+        }
+
+        .link-card:hover .link-arrow::before {
+            left: 3px;
         }
 
         /* Footer */
@@ -495,16 +501,16 @@
     <div class="container">
         <header class="header">
             <!-- Аватар канала (замените ссылку и изображение по желанию) -->
-            <a href="https://www.youtube.com/channel/UChMG116wqOZZIIDDMQc4v0w" class="avatar-link" target="_blank" rel="noopener">
+            <a href="https://www.youtube.com/@DOLF_HASKIN_Slices" class="avatar-link" target="_blank" rel="noopener">
                 <div class="avatar">
                     <span class="avatar-text">DH</span>
                 </div>
             </a>
             
             <div class="glitch-wrapper">
-                <h1 class="glitch" data-text="DOLF HASKIN SLICES">DOLF HASKIN SLICES</h1>
+                <h1 class="glitch" data-text="DOLF HASKIN НАРЕЗКИ">DOLF HASKIN НАРЕЗКИ</h1>
             </div>
-            <p class="tagline">Нарезки со стримов • Stream clips</p>
+            <p class="tagline">Нарезки со стримов</p>
         </header>
 
         <!-- Donation Section -->
@@ -522,7 +528,7 @@
                         <div class="link-name">DonateX</div>
                         <div class="link-url">donatex.gg/donate/dolf</div>
                     </div>
-                    <div class="link-arrow">→</div>
+                    <div class="link-arrow"></div>
                 </a>
 
                 <a href="https://www.donationalerts.com/c/dolf_stream" class="link-card" target="_blank" rel="noopener">
@@ -533,7 +539,7 @@
                         <div class="link-name">Donation Alerts</div>
                         <div class="link-url">donationalerts.com/c/dolf_stream</div>
                     </div>
-                    <div class="link-arrow">→</div>
+                    <div class="link-arrow"></div>
                 </a>
 
                 <a href="https://new.donatepay.ru/@dolf" class="link-card" target="_blank" rel="noopener">
@@ -544,7 +550,7 @@
                         <div class="link-name">DonatePay</div>
                         <div class="link-url">new.donatepay.ru/@dolf</div>
                     </div>
-                    <div class="link-arrow">→</div>
+                    <div class="link-arrow"></div>
                 </a>
 
                 <a href="https://new.donatepay.ru/@dolf/music" class="link-card" target="_blank" rel="noopener">
@@ -553,7 +559,7 @@
                         <div class="link-name">DonatePay Music</div>
                         <div class="link-url">new.donatepay.ru/@dolf/music</div>
                     </div>
-                    <div class="link-arrow">→</div>
+                    <div class="link-arrow"></div>
                 </a>
 
                 <a href="https://memealerts.com/dolf_stream" class="link-card" target="_blank" rel="noopener">
@@ -564,7 +570,7 @@
                         <div class="link-name">MemeAlerts</div>
                         <div class="link-url">memealerts.com/dolf_stream</div>
                     </div>
-                    <div class="link-arrow">→</div>
+                    <div class="link-arrow"></div>
                 </a>
             </div>
         </section>
@@ -584,7 +590,7 @@
                         <div class="link-name">Telegram</div>
                         <div class="link-url">t.me/dolf_stream</div>
                     </div>
-                    <div class="link-arrow">→</div>
+                    <div class="link-arrow"></div>
                 </a>
 
                 <a href="https://www.youtube.com/channel/UChMG116wqOZZIIDDMQc4v0w" class="link-card" target="_blank" rel="noopener">
@@ -595,7 +601,7 @@
                         <div class="link-name">YouTube</div>
                         <div class="link-url">youtube.com/@dolf_haskin_slices</div>
                     </div>
-                    <div class="link-arrow">→</div>
+                    <div class="link-arrow"></div>
                 </a>
             </div>
         </section>
