@@ -95,7 +95,7 @@
             z-index: 2;
             max-width: 900px;
             margin: 0 auto;
-            padding: 30px 20px 60px;
+            padding: 30px 20px 200px;
         }
 
         /* Header with glitch effect */
@@ -332,12 +332,131 @@
             opacity: 1;
         }
 
-        .platform-donatex { background: linear-gradient(135deg, #5856d6, #7d7aff); }
-        .platform-donationalerts { background: linear-gradient(135deg, #ff6b6b, #ff9f43); }
-        .platform-donatepay { background: linear-gradient(135deg, #00d2d3, #01a3a4); }
-        .platform-memealerts { background: linear-gradient(135deg, #ffeaa7, #fdcb6e); }
-        .platform-telegram { background: linear-gradient(135deg, #0088cc, #29b6f6); }
-        .platform-youtube { background: linear-gradient(135deg, #ff0000, #cc0000); }
+        .platform-twitch { background: linear-gradient(135deg, #9146ff, #772ce8); }
+
+        /* Single column centered layout */
+        .main-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Stream container */
+        .stream-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: var(--dark-gray);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+
+        .stream-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .stream-status {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .stream-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #9146ff, #772ce8);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 5px 20px rgba(145, 70, 255, 0.4);
+        }
+
+        .stream-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(145, 70, 255, 0.6);
+        }
+
+        .live-indicator {
+            width: 12px;
+            height: 12px;
+            background: #ff0000;
+            border-radius: 50%;
+            animation: livePulse 1.5s infinite;
+            box-shadow: 0 0 10px #ff0000;
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        /* Stream sidebar */
+        .stream-sidebar {
+            position: sticky;
+            top: 20px;
+        }
+
+        /* Fixed stream at bottom right */
+        .stream-fixed {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px;
+            z-index: 100;
+        }
+
+        .stream-fixed .stream-container {
+            margin-bottom: 10px;
+            border-radius: 12px;
+            border: 2px solid rgba(145, 70, 255, 0.5);
+            overflow: hidden;
+        }
+
+        .stream-fixed .stream-link {
+            display: block;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #9146ff, #772ce8);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stream-fixed .stream-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(145, 70, 255, 0.5);
+        }
+
+        /* Center the links */
+        .links-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .link-card {
+            width: 100%;
+            max-width: 500px;
+        }
 
         .link-content {
             flex: 1;
@@ -473,6 +592,12 @@
 
         /* Responsive */
         @media (max-width: 600px) {
+            .stream-fixed {
+                width: 280px;
+            }
+        }
+
+        @media (max-width: 600px) {
             .links-grid {
                 grid-template-columns: 1fr;
             }
@@ -513,13 +638,16 @@
             <p class="tagline">Нарезки со стримов</p>
         </header>
 
-        <!-- Donation Section -->
-        <section class="section">
-            <div class="section-header">
-                <div class="section-icon">💎</div>
-                <h2 class="section-title">Донат / Пожертвования</h2>
-            </div>
-            <div class="links-grid">
+        <div class="main-content">
+            <!-- Left Column: All Links -->
+            <div class="links-column">
+            <!-- Donation Section -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">💎</div>
+                    <h2 class="section-title">Донат / Пожертвования</h2>
+                </div>
+                <div class="links-grid">
                 <a href="https://donatex.gg/donate/dolf" class="link-card" target="_blank" rel="noopener">
                     <div class="link-platform platform-donatex">
                         <img src="assets/i (2).webp" alt="DonateX" class="platform-img" onerror="this.style.display='none';this.parentNode.innerHTML='DX';">
@@ -605,6 +733,24 @@
                 </a>
             </div>
         </section>
+        </div><!-- End links column -->
+        </div><!-- End main-content -->
+
+        <!-- Video in bottom right corner -->
+        <div class="stream-fixed">
+            <div class="stream-container">
+                <iframe
+                    src="https://drive.google.com/file/d/1pRnAGZ9C5J9KCnBFP5VLOpr-KVWJF5gl/preview"
+                    height="100%"
+                    width="100%"
+                    frameborder="0"
+                    allow="autoplay">
+                </iframe>
+            </div>
+            <a href="https://www.twitch.tv/dolf_haskin" target="_blank" class="stream-link" style="margin-top: 10px; display: block; text-align: center;">
+                🔴 Смотреть стрим
+            </a>
+        </div>
 
         <footer class="footer">
             <p class="footer-text"><span>⚡</span> DOLF HASKIN SLICES <span>⚡</span></p>
