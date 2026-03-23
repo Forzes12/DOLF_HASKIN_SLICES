@@ -504,9 +504,6 @@
             border-radius: 16px;
             padding: 1px;
             background: linear-gradient(135deg, transparent, transparent);
-            -webkit-mask:
-                linear-gradient(#fff 0 0) content-box,
-                linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             pointer-events: none;
@@ -829,7 +826,7 @@
         
         .footer-text::before,
         .footer-text::after {
-            content: '⚡';
+            content: '';
             margin: 0 10px;
             color: var(--primary);
             animation: footerPulse 2s infinite;
@@ -1129,7 +1126,7 @@
         </div>
 
         <footer class="footer">
-            <p class="footer-text"><span>⚡</span> DOLF HASKIN SLICES <span>⚡</span></p>
+            <p class="footer-text"><span>⚡</span> DOLF HASKIN НАРЕЗКИ <span>⚡</span></p>
         </footer>
     </div>
 
