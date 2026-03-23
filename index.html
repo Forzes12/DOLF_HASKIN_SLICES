@@ -34,6 +34,17 @@
             overflow-x: hidden;
         }
 
+        /* Floating particles canvas */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
         /* Stream overlay background */
         .overlay-bg {
             position: fixed;
@@ -42,7 +53,7 @@
             width: 100%;
             height: 100%;
             z-index: 0;
-            background: 
+            background:
                 linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(20,20,30,0.9) 100%),
                 repeating-linear-gradient(
                     0deg,
@@ -60,7 +71,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
+            background:
                 radial-gradient(ellipse at 30% 20%, rgba(191,90,242,0.15) 0%, transparent 50%),
                 radial-gradient(ellipse at 70% 80%, rgba(0,245,255,0.1) 0%, transparent 50%),
                 radial-gradient(ellipse at 50% 50%, rgba(255,45,85,0.08) 0%, transparent 60%);
@@ -90,6 +101,56 @@
             50% { opacity: 0.7; }
         }
 
+        /* Animated geometric shapes */
+        .geo-shape {
+            position: fixed;
+            z-index: 0;
+            opacity: 0.15;
+            animation: floatShape 20s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        .geo-shape.triangle {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 80px solid var(--primary);
+            filter: blur(1px);
+        }
+
+        .geo-shape.circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid var(--secondary);
+            background: transparent;
+            filter: blur(1px);
+        }
+
+        .geo-shape.diamond {
+            width: 60px;
+            height: 60px;
+            background: var(--purple);
+            transform: rotate(45deg);
+            filter: blur(1px);
+        }
+
+        @keyframes floatShape {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-30px) rotate(90deg);
+            }
+            50% {
+                transform: translateY(0) rotate(180deg);
+            }
+            75% {
+                transform: translateY(30px) rotate(270deg);
+            }
+        }
+
         .container {
             position: relative;
             z-index: 2;
@@ -103,11 +164,62 @@
             text-align: center;
             margin-bottom: 50px;
             position: relative;
+            padding: 40px 20px;
+            background: radial-gradient(ellipse at center, rgba(191,90,242,0.1) 0%, transparent 70%);
+            border-radius: 20px;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0.5;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+            opacity: 0.3;
         }
 
         .glitch-wrapper {
             position: relative;
             display: inline-block;
+        }
+        
+        .glitch-wrapper::before,
+        .glitch-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(ellipse, rgba(255,45,85,0.1) 0%, transparent 60%);
+            z-index: -1;
+            animation: headerGlow 3s infinite;
+        }
+        
+        .glitch-wrapper::after {
+            background: radial-gradient(ellipse, rgba(0,245,255,0.1) 0%, transparent 60%);
+            animation: headerGlow 3s infinite reverse;
+        }
+        
+        @keyframes headerGlow {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
         }
 
         /* Avatar styles */
@@ -129,6 +241,49 @@
                 0 0 30px rgba(255, 45, 85, 0.5);
             transition: all 0.3s ease;
             overflow: hidden;
+            position: relative;
+        }
+        
+        /* Pulsing glow ring */
+        .avatar::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            opacity: 0;
+            animation: avatarPulse 2s infinite;
+        }
+        
+        .avatar::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,45,85,0.3) 0%, transparent 70%);
+            animation: avatarGlow 3s infinite;
+        }
+        
+        @keyframes avatarPulse {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0;
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes avatarGlow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .avatar:hover {
@@ -136,6 +291,16 @@
             box-shadow:
                 0 0 0 2px var(--secondary),
                 0 0 50px rgba(0, 245, 255, 0.6);
+        }
+        
+        .avatar:hover::before {
+            border-color: var(--secondary);
+            animation: none;
+            opacity: 0.8;
+        }
+        
+        .avatar:hover::after {
+            background: radial-gradient(circle, rgba(0,245,255,0.3) 0%, transparent 70%);
         }
 
         .avatar-text {
@@ -212,6 +377,35 @@
             text-shadow: 0 0 20px var(--secondary);
             -webkit-text-stroke: 1px var(--secondary);
             paint-order: stroke fill;
+            position: relative;
+            display: inline-block;
+            animation: taglineGlow 2s infinite;
+        }
+        
+        .tagline::before {
+            content: '⚡ ';
+            color: var(--primary);
+            animation: taglineIcon 2s infinite;
+        }
+        
+        .tagline::after {
+            content: ' ⚡';
+            color: var(--primary);
+            animation: taglineIcon 2s infinite;
+        }
+        
+        @keyframes taglineGlow {
+            0%, 100% {
+                text-shadow: 0 0 20px var(--secondary), 0 0 40px var(--secondary);
+            }
+            50% {
+                text-shadow: 0 0 10px var(--secondary), 0 0 20px var(--secondary);
+            }
+        }
+        
+        @keyframes taglineIcon {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         /* Section styling */
@@ -235,6 +429,26 @@
             align-items: center;
             justify-content: center;
             font-size: 1.3rem;
+            box-shadow: 0 0 20px rgba(255, 45, 85, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: iconShine 3s infinite;
+        }
+        
+        @keyframes iconShine {
+            0%, 100% { transform: translateX(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) rotate(45deg); }
         }
 
         .section-title {
@@ -247,6 +461,18 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--secondary), var(--purple), transparent);
+            opacity: 0.5;
         }
 
         /* Link cards - Stream style */
@@ -269,29 +495,50 @@
             align-items: center;
             gap: 15px;
         }
+        
+        /* Gradient border effect */
+        .link-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(135deg, transparent, transparent);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            transition: all 0.3s;
+        }
 
         .link-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.05) 100%);
-            opacity: 0;
-            transition: opacity 0.3s;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .link-card:hover::before {
+            left: 100%;
         }
 
         .link-card:hover {
             transform: translateY(-5px) scale(1.02);
             border-color: var(--primary);
-            box-shadow: 
+            box-shadow:
                 0 10px 40px rgba(255,45,85,0.3),
+                0 0 30px rgba(255,45,85,0.2),
                 inset 0 0 20px rgba(255,45,85,0.1);
         }
 
-        .link-card:hover::before {
-            opacity: 1;
+        .link-card:hover::after {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--purple));
         }
 
         .link-platform {
@@ -382,11 +629,28 @@
             letter-spacing: 2px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 5px 20px rgba(145, 70, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stream-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .stream-link:hover::before {
+            left: 100%;
         }
 
         .stream-link:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 40px rgba(145, 70, 255, 0.6);
+            box-shadow: 0 10px 40px rgba(145, 70, 255, 0.6), 0 0 30px rgba(145, 70, 255, 0.4);
         }
 
         .live-indicator {
@@ -395,12 +659,34 @@
             background: #ff0000;
             border-radius: 50%;
             animation: livePulse 1.5s infinite;
-            box-shadow: 0 0 10px #ff0000;
+            box-shadow:
+                0 0 10px #ff0000,
+                0 0 20px #ff0000,
+                0 0 30px rgba(255, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .live-indicator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            animation: liveRing 2s infinite;
         }
 
         @keyframes livePulse {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.7; transform: scale(1.2); }
+        }
+        
+        @keyframes liveRing {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
         }
 
         /* Stream sidebar */
@@ -517,12 +803,41 @@
             padding: 40px 20px;
             margin-top: 20px;
             border-top: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            background: linear-gradient(180deg, transparent, rgba(255,45,85,0.05));
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
         }
 
         .footer-text {
             font-size: 0.85rem;
             color: var(--text-gray);
             letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+        }
+        
+        .footer-text::before,
+        .footer-text::after {
+            content: '⚡';
+            margin: 0 10px;
+            color: var(--primary);
+            animation: footerPulse 2s infinite;
+        }
+        
+        @keyframes footerPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         .footer-text span {
@@ -538,6 +853,32 @@
             border: 2px solid rgba(255,45,85,0.2);
             pointer-events: none;
             z-index: 0;
+            transition: transform 0.3s ease-out;
+        }
+        
+        .corner-decoration::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--primary);
+            animation: cornerPulse 2s infinite;
+        }
+        
+        .corner-decoration.top-left::before { top: -5px; left: -5px; }
+        .corner-decoration.top-right::before { top: -5px; right: -5px; }
+        .corner-decoration.bottom-left::before { bottom: -5px; left: -5px; }
+        .corner-decoration.bottom-right::before { bottom: -5px; right: -5px; }
+        
+        .corner-decoration:nth-child(odd)::before {
+            animation-delay: -1s;
+        }
+        
+        @keyframes cornerPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
         }
 
         .corner-decoration.top-left {
@@ -545,6 +886,7 @@
             left: 20px;
             border-right: none;
             border-bottom: none;
+            border-image: linear-gradient(135deg, var(--primary), transparent) 1;
         }
 
         .corner-decoration.top-right {
@@ -566,6 +908,24 @@
             right: 20px;
             border-left: none;
             border-top: none;
+        }
+        
+        /* Additional decorative dots */
+        .dot-decoration {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--secondary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+            animation: dotFloat 4s infinite ease-in-out;
+        }
+        
+        @keyframes dotFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         /* Animations */
@@ -614,14 +974,30 @@
     </style>
 </head>
 <body>
+    <canvas id="particles"></canvas>
     <div class="overlay-bg"></div>
     <div class="scanlines"></div>
+    
+    <!-- Animated geometric shapes -->
+    <div class="geo-shape triangle" style="top: 10%; left: 5%; animation-delay: 0s; animation-duration: 15s;"></div>
+    <div class="geo-shape circle" style="top: 60%; left: 85%; animation-delay: -5s; animation-duration: 18s;"></div>
+    <div class="geo-shape diamond" style="top: 80%; left: 15%; animation-delay: -10s; animation-duration: 22s;"></div>
+    <div class="geo-shape triangle" style="top: 40%; left: 90%; animation-delay: -7s; animation-duration: 20s;"></div>
+    <div class="geo-shape circle" style="top: 20%; left: 70%; animation-delay: -3s; animation-duration: 16s;"></div>
     
     <!-- Corner decorations -->
     <div class="corner-decoration top-left"></div>
     <div class="corner-decoration top-right"></div>
     <div class="corner-decoration bottom-left"></div>
     <div class="corner-decoration bottom-right"></div>
+    
+    <!-- Floating decorative dots -->
+    <div class="dot-decoration" style="top: 15%; left: 25%; animation-delay: 0s;"></div>
+    <div class="dot-decoration" style="top: 35%; left: 8%; animation-delay: -1s;"></div>
+    <div class="dot-decoration" style="top: 65%; left: 92%; animation-delay: -2s;"></div>
+    <div class="dot-decoration" style="top: 85%; left: 75%; animation-delay: -0.5s;"></div>
+    <div class="dot-decoration" style="top: 45%; left: 95%; animation-delay: -1.5s;"></div>
+    <div class="dot-decoration" style="top: 25%; left: 55%; animation-delay: -2.5s;"></div>
 
     <div class="container">
         <header class="header">
@@ -758,6 +1134,176 @@
     </div>
 
     <script>
+        // Particle System
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.color = Math.random() > 0.5 ? '#ff2d55' : '#00f5ff';
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < 0 || this.x > canvas.width ||
+                    this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+        
+        // Create particles
+        for (let i = 0; i < 80; i++) {
+            particles.push(new Particle());
+        }
+        
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // Draw connections
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = '#00f5ff';
+                        ctx.globalAlpha = (150 - distance) / 150 * 0.15;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                        ctx.globalAlpha = 1;
+                    }
+                });
+            });
+            
+            animationId = requestAnimationFrame(animateParticles);
+        }
+        
+        animateParticles();
+        
+        // Mouse trail effect
+        const trailCanvas = document.createElement('canvas');
+        trailCanvas.id = 'trail-canvas';
+        trailCanvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;';
+        document.body.appendChild(trailCanvas);
+        const trailCtx = trailCanvas.getContext('2d');
+        
+        let mouseX = 0, mouseY = 0;
+        let trailPoints = [];
+        
+        function resizeTrailCanvas() {
+            trailCanvas.width = window.innerWidth;
+            trailCanvas.height = window.innerHeight;
+        }
+        resizeTrailCanvas();
+        window.addEventListener('resize', resizeTrailCanvas);
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            trailPoints.push({ x: mouseX, y: mouseY, age: 0 });
+        });
+        
+        function drawTrail() {
+            trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+            
+            trailPoints = trailPoints.filter(p => p.age < 30);
+            
+            trailPoints.forEach((p, i) => {
+                p.age++;
+                const opacity = 1 - (p.age / 30);
+                const size = (1 - p.age / 30) * 8;
+                
+                trailCtx.beginPath();
+                trailCtx.arc(p.x, p.y, size, 0, Math.PI * 2);
+                trailCtx.fillStyle = `rgba(0, 245, 255, ${opacity * 0.5})`;
+                trailCtx.fill();
+                
+                // Glow effect
+                const gradient = trailCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, size * 3);
+                gradient.addColorStop(0, `rgba(0, 245, 255, ${opacity * 0.3})`);
+                gradient.addColorStop(1, 'transparent');
+                trailCtx.beginPath();
+                trailCtx.arc(p.x, p.y, size * 3, 0, Math.PI * 2);
+                trailCtx.fillStyle = gradient;
+                trailCtx.fill();
+            });
+            
+            requestAnimationFrame(drawTrail);
+        }
+        drawTrail();
+        
+        // Click ripple effect
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: fixed;
+                left: ${e.clientX}px;
+                top: ${e.clientY}px;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                border: 2px solid #00f5ff;
+                pointer-events: none;
+                z-index: 10000;
+                transform: translate(-50%, -50%);
+                animation: rippleExpand 0.8s ease-out forwards;
+            `;
+            document.body.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 800);
+        });
+        
+        // Add ripple keyframes to document
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rippleExpand {
+                0% { width: 20px; height: 20px; opacity: 1; }
+                100% { width: 200px; height: 200px; opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
         // Add hover sound effect simulation (visual feedback)
         document.querySelectorAll('.link-card').forEach(card => {
             card.addEventListener('mouseenter', () => {
@@ -765,17 +1311,70 @@
             });
         });
 
-        // Parallax effect on mouse move
+        // Parallax effect on mouse move - enhanced
         document.addEventListener('mousemove', (e) => {
             const cards = document.querySelectorAll('.link-card');
             const x = (window.innerWidth - e.pageX * 2) / 100;
             const y = (window.innerHeight - e.pageY * 2) / 100;
+            
+            // Move background shapes
+            const shapes = document.querySelectorAll('.geo-shape');
+            shapes.forEach((shape, index) => {
+                const depth = (index + 1) * 2;
+                shape.style.transform = `translateX(${x * depth}px) translateY(${y * depth}px)`;
+            });
 
             cards.forEach((card, index) => {
                 const depth = (index + 1) * 0.5;
                 card.style.transform = `translateY(-5px) translateX(${x * depth}px) translateY(${y * depth}px)`;
             });
+            
+            // Move corner decorations
+            document.querySelectorAll('.corner-decoration').forEach((corner, index) => {
+                const depth = (index % 2 === 0 ? -1 : 1) * 3;
+                corner.style.transform = `translateX(${x * depth}px) translateY(${y * depth}px)`;
+            });
         });
+        
+        // Header glow animation on load
+        window.addEventListener('load', () => {
+            const header = document.querySelector('.header');
+            header.style.opacity = '0';
+            header.style.transform = 'translateY(-20px)';
+            header.style.transition = 'all 0.8s ease-out';
+            
+            setTimeout(() => {
+                header.style.opacity = '1';
+                header.style.transform = 'translateY(0)';
+            }, 100);
+            
+            // Staggered section reveal
+            document.querySelectorAll('.section').forEach((section, i) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'all 0.6s ease-out';
+                setTimeout(() => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, 300 + (i * 200));
+            });
+        });
+        
+        // Dynamic title on tab visibility
+        let isTabActive = true;
+        document.addEventListener('visibilitychange', () => {
+            isTabActive = !document.hidden;
+            if (isTabActive) {
+                document.title = 'DOLF HASKIN НАРЕЗКИ';
+            }
+        });
+        
+        // Blinking tab title when streaming (simulated)
+        setInterval(() => {
+            if (isTabActive) {
+                document.title = document.title === 'DOLF HASKIN НАРЕЗКИ' ? '🔴 DOLF HASKIN' : 'DOLF HASKIN НАРЕЗКИ';
+            }
+        }, 2000);
     </script>
 </body>
 </html>
